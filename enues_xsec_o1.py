@@ -117,11 +117,10 @@ def _enues_xsec( #Вроде функция ниже переписана
 
     g_L = 1+2*SinSqWeinberg
     g_R = 2*SinSqWeinberg
-    for i in range(len(T_eIn)):
-        for j in range(len(EnuIn)):
-            T_eIn[i] = t
-            EnuIn[j] = e_nu
-            a = ((g_L)**2)*((1-(t/e_nu))**2)
-            b = g_L*g_R*ElectronMass*t/((e_nu)**2)
-            cross_section = ((ConstFermi**2)*ElectronMass)*((g_R**2)+a-b)/(2*np.pi)
-     return cross_section
+    cross_section = [[0 for i in range(len(T_eIn))] for j in range(len(EnuIn))]
+    for i in range(len(EnuIn)):
+        for j in range(len(T_eIn)):
+            a = ((g_L)**2)*((1-(T_eIn[j]/EnuIn[i]))**2)
+            b = g_L*g_R*ElectronMass*T_eIn[j]/((EnuIn[i])**2)
+            cross_section[i][j] = ((ConstFermi**2)*ElectronMass)*((g_R**2)+a-b)/(2*pi)
+    return cross_section
