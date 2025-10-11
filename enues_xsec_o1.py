@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
 
-class IBDXsecVBO1(Node):
+class ENuESXsecO1(Node):
 #    """Inverse beta decay cross section by Vogel and Beacom."""
 
     __slots__ = (
@@ -117,10 +117,18 @@ def _enues_xsec( #Вроде функция ниже переписана
 
     g_L = 1+2*SinSqWeinberg
     g_R = 2*SinSqWeinberg
-    cross_section = [[0 for i in range(len(T_eIn))] for j in range(len(EnuIn))]
-    for i in range(len(EnuIn)):
-        for j in range(len(T_eIn)):
-            a = ((g_L)**2)*((1-(T_eIn[j]/EnuIn[i]))**2)
-            b = g_L*g_R*ElectronMass*T_eIn[j]/((EnuIn[i])**2)
-            cross_section[i][j] = ((ConstFermi**2)*ElectronMass)*((g_R**2)+a-b)/(2*pi)
-    return cross_section
+    sq_g_L = g_L**2
+    sq_g_R = g_R**2
+    composition_gL_gR_Emass = g_L*g_R*ElectronMass
+    composition_sqCF_Emass_reverse2pi = (ConstFermi**2)*ElectronMass/(2*pi)
+    
+    result = Result.ravel()
+    for i, e_i in enumerate(EnuIn.ravel()):
+        for j, te_j in enumerate(T_eIn.ravel()):
+            if e_i > 0 :
+                t = te_j/e_i
+                a = sq_g_L*((1-t)**2)
+                b = composition_gL_gR_Emass*t/e_i      
+                result[i] = composition_sqCF_Emass_reverse2pi*(sq_g_R+a-b)
+            else:
+                result[i]= 0.0
