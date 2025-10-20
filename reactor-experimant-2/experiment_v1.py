@@ -201,7 +201,7 @@ class model_experiment_v1:
             load_parameters(path="reactor",    load=path_parameters/"reactor_thermal_power_nominal.yaml")
             load_parameters(path="reactor",    load=path_parameters/"reactor_fission_fraction_scale.yaml")
 
-            load_parameters(path="e_nues", load=path_parameters/"enees_parametrs.yaml") #ПОДГРУЖАЮ ПАРАМЕТРЫ ИЗ ФАЙЛА
+            load_parameters(path="e_nues", load=path_parameters/"enues_parametrs.yaml") #ПОДГРУЖАЮ ПАРАМЕТРЫ ИЗ ФАЙЛА
 
 
 
